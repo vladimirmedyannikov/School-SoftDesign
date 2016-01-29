@@ -14,8 +14,6 @@ import android.widget.Toast;
 
 import com.softdesign.school.utils.Lg;
 
-import ru.medyannikov.school_softdesign.R;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String VISIBLE_KEY = "visible";
@@ -30,9 +28,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText mEditText1;
     private EditText mEditText2;
     private Toolbar mToolbar;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
