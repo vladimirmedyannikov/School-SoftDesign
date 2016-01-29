@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">School-SoftDesign</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="btn_green_text">Green</string>
+    <string name="btn_red_text">Red</string>
+    <string name="btn_blue_text">Blue</string>
 </resources>
