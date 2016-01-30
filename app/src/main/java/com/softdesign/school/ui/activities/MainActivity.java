@@ -1,4 +1,4 @@
-package com.softdesign.school;
+package com.softdesign.school.ui.activities;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.softdesign.school.R;
 import com.softdesign.school.utils.Lg;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -128,6 +130,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         Lg.e(this.getLocalClassName(),"onDestroy");
         super.onDestroy();
+    }
+
+    @Override
+    protected void onRestart() {
+        Lg.e(this.getLocalClassName(),"onRestart");
+        super.onRestart();
+    }
+
+    @Override
+    protected void onStart() {
+        Lg.e(this.getLocalClassName(),"onStart");
+        super.onStart();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home){
+            Toast.makeText(this,"Home",Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**
