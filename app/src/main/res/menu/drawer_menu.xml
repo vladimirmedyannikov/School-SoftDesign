@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+    <item android:title="@string/drawer_menu_profile"
+        android:icon="@drawable/ic_account_box_24dp"
+        android:checked="true"
+        android:id="@+id/drawer_profile"/>
+    <item android:title="@string/drawer_menu_contacts"
+        android:icon="@drawable/ic_contacts_24dp"
+        android:checked="true"
+        android:id="@+id/drawer_contacts"/>
+    <item android:title="@string/drawer_menu_team"
+        android:icon="@drawable/ic_people_24dp"
+        android:checked="true"
+        android:id="@+id/drawer_team"/>
+    <item android:title="@string/drawer_menu_task"
+        android:icon="@drawable/ic_assignment_24dp"
+        android:checked="true"
+        android:id="@+id/drawer_task"/>
+    <item android:title="@string/drawer_menu_settings"
+        android:icon="@drawable/ic_settings_24dp"
+        android:checked="true"
+        android:id="@+id/drawer_settings"/>
+    </group>
+</menu>
