@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.softdesign.school.R;
+import com.softdesign.school.ui.activities.MainActivity;
 
 /**
  * Created by Vladimir on 05.02.2016.
@@ -17,7 +18,9 @@ public class TaskFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_task, null);
-        getActivity().setTitle(getString(R.string.drawer_menu_task));
+        getActivity().setTitle(getResources().getString(R.string.drawer_menu_task));
+        ((MainActivity)getActivity()).setTitle(getResources().getString(R.string.drawer_menu_task));
+        ((MainActivity)getActivity()).lockAppBar(true);
         return view;
     }
 }

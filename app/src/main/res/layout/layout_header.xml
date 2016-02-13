@@ -4,11 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/navigation_header_height"
     android:background="@drawable/drawer_header"
-    android:padding="@dimen/drawer_header_padding"
+    android:paddingTop="@dimen/drawer_header_padding"
     android:fitsSystemWindows="true">
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/drawer_header_padding">
 
         <RelativeLayout
             android:layout_width="match_parent"
