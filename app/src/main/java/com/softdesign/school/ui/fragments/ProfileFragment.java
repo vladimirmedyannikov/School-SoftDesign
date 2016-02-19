@@ -20,11 +20,13 @@ import com.softdesign.school.ui.adapters.RecycleUsersAdapter;
 
 import java.util.ArrayList;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by Vladimir on 05.02.2016.
  */
 public class ProfileFragment extends Fragment {
-
 
     @Nullable
     @Override
@@ -39,13 +41,12 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
+        FloatingActionButton mFloatingActionButton = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mFloatingActionButton.getLayoutParams();
         params.setAnchorId(R.id.appbar_layout);
         params.anchorGravity = Gravity.BOTTOM|Gravity.RIGHT;
-        fab.setImageResource(R.drawable.ic_create_24dp);
-        fab.setLayoutParams(params);
+        mFloatingActionButton.setImageResource(R.drawable.ic_create_24dp);
+        mFloatingActionButton.setLayoutParams(params);
     }
 
 
