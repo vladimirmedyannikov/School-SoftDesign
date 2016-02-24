@@ -18,6 +18,18 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="header_reating">100</string>
-    <string name="header_login">Vladimir Medyannikov</string>
+    <string name="header_login">Владимир Медянников</string>
     <string name="header_email">vladimir.medyannikov@gmail.com</string>
+    <string name="font_medium">sans-serif-medium</string>
+    <string name="font_regular">sans-serif</string>
+    <string name="fragmet.profile.labelphone">Мобильный</string>
+    <string name="fragment.profile.phonevalue">+7 (937) 217-74-65</string>
+    <string name="fragment.profile.emailvalue">vladimir.medyannikov@gmail.com</string>
+    <string name="fragment.profile.emailtitle">E-mail</string>
+    <string name="fragment.profile.vkvalue">http://vk.com/medyannikov</string>
+    <string name="fragment.profile.vklabel">Профиль в VK</string>
+    <string name="fragment.profile.gitvalue">https://github.com/vladimirmedyannikov/School-SoftDesign</string>
+    <string name="fragment.profile.gitlabel">Репозиторий</string>
+    <string name="fragment.profile.aboutvalue">Информация о себе</string>
+    <string name="fragment.profile.aboutlabel">О себе</string>
 </resources>

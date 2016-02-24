@@ -3,13 +3,21 @@ package com.softdesign.school.ui.activities;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.DragEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -37,6 +45,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private DrawerLayout mDrawerLayout;
     private Fragment mFragment;
     private FrameLayout mFrameLayout;
+    private AppBarLayout.LayoutParams params;
+    private CollapsingToolbarLayout mCollapsingToolbarLayout;
+    private AppBarLayout mAppBarLayout;
+    private AppCompatImageView mImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,16 +57,55 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setupToolBar();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.navigation_drawer);
         mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
         mFrameLayout = (FrameLayout) findViewById(R.id.fragment_container);
-        setupNavigationDrawer();
+        mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        mAppBarLayout = (AppBarLayout) findViewById(R.id.appbar_layout);
+        mImageView = (AppCompatImageView) findViewById(R.id.image_back);
 
+        setupToolBar();
+        setupNavigationDrawer();
+        params = (AppBarLayout.LayoutParams) mCollapsingToolbarLayout.getLayoutParams();
         if (savedInstanceState == null){
             mNavigationView.getMenu().findItem(R.id.drawer_profile).setChecked(true);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment(), TAG_FRAGMENT).commit();
         }
+    }
+
+    public void setTitle(String title){
+        mCollapsingToolbarLayout.setTitle(title);
+    }
+
+    public void lockAppBar(boolean collapse){
+        params = (AppBarLayout.LayoutParams) mCollapsingToolbarLayout.getLayoutParams();
+        if(collapse) {
+            AppBarLayout.OnOffsetChangedListener listener = new AppBarLayout.OnOffsetChangedListener() {
+                @Override
+                public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                    if (mCollapsingToolbarLayout.getHeight() + verticalOffset <= ViewCompat.getMinimumHeight(mCollapsingToolbarLayout) + getStatusBarHeight()) {
+                        appBarLayout.removeOnOffsetChangedListener(this);
+                        params.setScrollFlags(0);
+                        //mCollapsingToolbarLayout.setLayoutParams(params);
+                    }
+                }
+            };
+            mAppBarLayout.addOnOffsetChangedListener(listener);
+            mAppBarLayout.setExpanded(false);
+        }
+        else{
+            mAppBarLayout.setExpanded(true);
+            params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED | AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP);
+            mCollapsingToolbarLayout.setLayoutParams(params);
+        }
+    }
+
+    private int getStatusBarHeight(){
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0)
+            result = getResources().getDimensionPixelSize(resourceId);
+        return result;
     }
 
     private void setupNavigationDrawer() {
@@ -83,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         mNavigationView.getMenu().findItem(R.id.drawer_settings).setChecked(true);
                         break;
                     default:
-                        mFragment = new ProfileFragment();
+                        //mFragment = new ProfileFragment();
                         mNavigationView.getMenu().findItem(R.id.drawer_profile).setChecked(true);
                         break;
                 }
@@ -178,10 +229,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onSaveInstanceState(Bundle outState) {
         Lg.e(this.getLocalClassName(), "onSave");
         super.onSaveInstanceState(outState);
-
-        outState.putInt(TOOLBAR_COLOR_KEY, ((ColorDrawable)mToolbar.getBackground()).getColor());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            outState.putInt(STATUSBAR_COLOR_KEY, getWindow().getStatusBarColor());
     }
 
     /**
@@ -190,11 +237,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         Fragment fragment = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT);
         if (fragment != null) {
             if (fragment instanceof ProfileFragment) {
-                mNavigationView.getMenu().findItem(R.id.drawer_profile).setChecked(true);
+                getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             } else if (fragment instanceof ContactsFragment) {
                 mNavigationView.getMenu().findItem(R.id.drawer_contacts).setChecked(true);
             } else if (fragment instanceof TeamFragment) {
@@ -205,6 +251,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mNavigationView.getMenu().findItem(R.id.drawer_settings).setChecked(true);
             } else mNavigationView.getMenu().findItem(R.id.drawer_profile).setChecked(true);
         }
-
+        super.onBackPressed();
     }
 }
