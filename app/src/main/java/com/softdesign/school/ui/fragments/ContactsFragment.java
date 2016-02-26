@@ -20,11 +20,15 @@ import com.softdesign.school.ui.adapters.RecycleUsersAdapter;
 
 import java.util.ArrayList;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by Vladimir on 05.02.2016.
  */
 public class ContactsFragment extends Fragment {
-    private RecyclerView mRecyclerView;
+    @Bind(R.id.contacts_recyclerview) RecyclerView mRecyclerView;
+
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<User> mUserList = new ArrayList<User>();
@@ -35,13 +39,11 @@ public class ContactsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_contacts, null, false);
         getActivity().setTitle(getResources().getString(R.string.drawer_menu_contacts));
         ((MainActivity)getActivity()).setTitle(getResources().getString(R.string.drawer_menu_contacts));
-
+        ButterKnife.bind(this, view);
         generateData();
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.contacts_recyclerview);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-
         mAdapter = new RecycleUsersAdapter(mUserList);
         mRecyclerView.setAdapter(mAdapter);
 

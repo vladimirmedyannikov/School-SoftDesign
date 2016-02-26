@@ -34,35 +34,29 @@ import com.softdesign.school.ui.fragments.TaskFragment;
 import com.softdesign.school.ui.fragments.TeamFragment;
 import com.softdesign.school.utils.Lg;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
-    public static final String VISIBLE_KEY = "visible";
-    public static final String TOOLBAR_COLOR_KEY = "toolbar_color";
-    public static final String STATUSBAR_COLOR_KEY = "statusbar_color";
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    @Bind(R.id.toolbar) Toolbar mToolbar;
+    @Bind(R.id.navigation_view) NavigationView mNavigationView;
+    @Bind(R.id.navigation_drawer) DrawerLayout mDrawerLayout;
+    @Bind(R.id.fragment_container) FrameLayout mFrameLayout;
+    @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout mCollapsingToolbarLayout;
+    @Bind(R.id.appbar_layout) AppBarLayout mAppBarLayout;
+    @Bind(R.id.image_back) AppCompatImageView mImageView;
+
     private static final String TAG_FRAGMENT = "current_fragment";
-    private Toolbar mToolbar;
-    private NavigationView mNavigationView;
-    private DrawerLayout mDrawerLayout;
+
     private Fragment mFragment;
-    private FrameLayout mFrameLayout;
     private AppBarLayout.LayoutParams params;
-    private CollapsingToolbarLayout mCollapsingToolbarLayout;
-    private AppBarLayout mAppBarLayout;
-    private AppCompatImageView mImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Lg.e(this.getLocalClassName(), "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.navigation_drawer);
-        mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
-        mFrameLayout = (FrameLayout) findViewById(R.id.fragment_container);
-        mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        mAppBarLayout = (AppBarLayout) findViewById(R.id.appbar_layout);
-        mImageView = (AppCompatImageView) findViewById(R.id.image_back);
+        ButterKnife.bind(this);
 
         setupToolBar();
         setupNavigationDrawer();
@@ -77,8 +71,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mCollapsingToolbarLayout.setTitle(title);
     }
 
+    /**
+     * Метод блокировки положения AppBarLayout
+     * @param collapse true - сжать
+     *                 false - отобразить
+     */
     public void lockAppBar(boolean collapse){
         params = (AppBarLayout.LayoutParams) mCollapsingToolbarLayout.getLayoutParams();
+        CoordinatorLayout.LayoutParams p = (CoordinatorLayout.LayoutParams) mAppBarLayout.getLayoutParams();
+        final AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) p.getBehavior();
+
         if(collapse) {
             AppBarLayout.OnOffsetChangedListener listener = new AppBarLayout.OnOffsetChangedListener() {
                 @Override
@@ -86,7 +88,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (mCollapsingToolbarLayout.getHeight() + verticalOffset <= ViewCompat.getMinimumHeight(mCollapsingToolbarLayout) + getStatusBarHeight()) {
                         appBarLayout.removeOnOffsetChangedListener(this);
                         params.setScrollFlags(0);
-                        //mCollapsingToolbarLayout.setLayoutParams(params);
+
+                        behavior.setDragCallback(new AppBarLayout.Behavior.DragCallback() {
+                            @Override
+                            public boolean canDrag(AppBarLayout appBarLayout) {
+                                return false;
+                            }
+                        });
                     }
                 }
             };
