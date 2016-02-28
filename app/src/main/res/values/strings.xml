@@ -32,4 +32,9 @@
     <string name="fragment.profile.gitlabel">Репозиторий</string>
     <string name="fragment.profile.aboutvalue">Информация о себе</string>
     <string name="fragment.profile.aboutlabel">О себе</string>
+    <string name="btn_text_add_team">Добавить команду</string>
+    <string name="btn_text_add_user">Добавить пользователя</string>
+    <string name="dialog_text_team_name">Название команды</string>
+    <string name="dialog_text_user_lastname">Фамилия</string>
+    <string name="dialog_text_user_firstname">Имя</string>
 </resources>

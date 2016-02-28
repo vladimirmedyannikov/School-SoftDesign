@@ -12,17 +12,37 @@ import java.util.List;
 /**
  * Created by Vladimir on 13.02.2016.
  */
-
-public class User{
-
+@Table(name = "Users")
+public class ActiveUser extends Model{
+    @Column(name = "firstName")
     private String mFirstName;
+
+    @Column(name = "lastName")
     private String mLastName;
+
+    @Column(name = "rate")
     private int mRait;
+
+    @Column(name = "email")
     private String mEmail;
+
+    @Column(name = "team")
+    private Team team;
 
     private Drawable mImage;
     private String mVkLink;
     private String mGitLink;
+
+    public ActiveUser() {
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
 
     public String getmEmail() {
         return mEmail;
@@ -32,11 +52,31 @@ public class User{
         this.mEmail = mEmail;
     }
 
+    public static List<ActiveUser> getAll(){
+        return new Select()
+                .from(ActiveUser.class)
+                .orderBy("firstname ASC, lastname ASC")
+                .execute();
+    }
 
-    public User(Drawable image, String firstName, String lastName){
+    public static List<ActiveUser> getUsersByTeam(Team team){
+        return new Select()
+                .from(ActiveUser.class)
+                .where("team = ?", team)
+                .orderBy("firstname ASC, lastname ASC")
+                .execute();
+    }
+
+    public ActiveUser(Drawable image, String firstName, String lastName){
         this.mImage = image;
         this.mFirstName = firstName;
         this.mLastName = lastName;
+    }
+
+    public ActiveUser(String mFirstName, String mLastName, Team team) {
+        this.mFirstName = mFirstName;
+        this.mLastName = mLastName;
+        this.team = team;
     }
 
     public String getmFirstName() {
